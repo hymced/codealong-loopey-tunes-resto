@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loopey Tunes Restaurant</title>
-
+    {{!-- <title>Loopey Tunes Restaurant</title> --}}
+    <title>Loopey Tunes Restaurant | {{page.title}}</title>
+    
     <link rel="stylesheet" href="/css/main.css" />
 </head>
-
 <body>
     <nav>
         <a href="/">Home</a>
@@ -18,17 +17,15 @@
         <a href="/pizzas/seafood">Pizza Seafood</a>
         <a href="/contact">Contact</a>
     </nav>
+    
+    {{{body}}}
 
-    <h1>Welcome to our amazing restaurant</h1>
+    <footer>
+        this is the footer
+    </footer>
 
-    <img src="/images/home.jpg" alt="delicious pizzas" />
-
-    <ul>
-        <li><a href="/pizzas/margarita">Margarita</a></li>
-        <li><a href="/pizzas/veggie">Veggie</a></li>
-        <li><a href="/pizzas/seafood">Seafood</a></li>
-        <li><a href="/pizzas/special?type=regina">Special with a REST parameter</a></li>
-    </ul>
+    <script>
+        //
+    </script>
 </body>
-
 </html>

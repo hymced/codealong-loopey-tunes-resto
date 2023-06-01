@@ -1,0 +1,30 @@
+
+<h1>{{title}}</h1>
+{{#if price}}
+<h2>Price: <span>{{price}}</span> €</h2>
+{{else}}
+<h2>Price upon request</h2>
+{{/if}}
+
+<hr />
+
+<h2>Ingredients</h2>
+{{!-- <div>
+    {{#each ingredients}}
+    <p>{{@index}}) {{this}}</p>
+    {{/each}}
+</div> --}}
+<ul>
+    {{#each ingredients}}
+    {{!-- <li>{{@index}}) {{#if this.ingredientName}}{{this.ingredientName}}{{else}}{{this}}{{/if}}</li> --}}
+    {{!-- <li>{{incHelper @index}}) {{#if this.ingredientName}}{{this.ingredientName}}{{else}}{{this}}{{/if}}</li> --}}
+    <li>{{mathHelper @index "+" 1}}) {{#if this.ingredientName}}{{this.ingredientName}}{{else}}{{this}}{{/if}}</li>
+    {{/each}}
+</ul>
+
+{{!-- {{log ingredients}} --}}
+
+{{!-- <img src="/images/{{imageFile}}" alt="{{title}}"> --}}
+<img src="../images/{{imageFile}}" alt="{{title}}">
+
+{{> ctaOrderNow}}
