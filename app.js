@@ -8,6 +8,7 @@
 const express = require("express"),
       hbs = require("hbs");
       mongoose = require("mongoose")
+      bodyParser = require('body-parser')
 
 // const handlebars = require("handlebars");
 // const exphbs = require('express-handlebars');
@@ -20,6 +21,12 @@ app.use(express.static('public'));
 // expose the content of the public directory and make everything inside public
 // localhost:3000/images/home.jpg
 // https://raw.githubusercontent.com/RemoteRaccoons-Ironhack-Nov-22/ironrestaurant-pizzaForEach/main/public/images/home.jpg
+
+app.use(bodyParser.urlencoded({ extended: true })); // without this package, the body property of the req object received in the middleware functions won't be created/populated
+
+// recent Express versions have built-in middlewares that does the same:
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
 /******************/
 /* config > views */
@@ -251,6 +258,20 @@ app.get("/pizzas", (req, res, next) => {
             res.render("product-list", {pizzasArr: pizzasFromDB});
         })
         .catch( e => console.log("Error getting pizza from DB: ", e))
+});
+
+/*********/
+/* login */
+/*********/
+
+app.post("/login", (req, res, next) => {
+    if (req.body.pwd === "azerty") {
+        console.log("ok")
+        // res.redirect("/")
+        res.sendStatus(204) // No Content
+    } else {
+        res.send("wrong password!")
+    }
 });
 
 /******************/
