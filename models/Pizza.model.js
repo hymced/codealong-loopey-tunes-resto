@@ -16,10 +16,12 @@ const pizzaSchema = new Schema({
     price: {
         type: Number,
         required: true,
-        default: false,
         min: 1,
     },
-    isVeggie: Boolean,
+    isVeggie: {
+        type: Boolean,
+        default: false,
+    },
     dough: {
         type: String,
         enum: ["classic", "super thick", "extra thin", "with cheese", "with garlic"]
@@ -29,6 +31,8 @@ const pizzaSchema = new Schema({
 })
 
 //create Model
-const Pizza = mongoose.model("Pizza", pizzaSchema); // capitalized variable name by convention
+const Pizza = mongoose.model("Pizza", pizzaSchema); 
+// capitalized variable name by convention
+// will create a collection named "pizzas" (all lowercase and pluralized)
 
 module.exports = Pizza;

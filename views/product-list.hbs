@@ -1,0 +1,14 @@
+<h1>List of pizzas in our DB:</h1>
+
+{{#each pizzasArr}}
+    <section class="pizza-summary">
+        <h2><a href="/pizzas/{{this.title}}">{{this.title}}</a></h2>
+        <h3>Price: {{this.price}}€</h3>
+
+        <hr>
+    </section>
+{{else}}
+    <section class="pizza-summary">
+        <h2>No pizza machting the criteria</h2>
+    </section>
+{{/each}}

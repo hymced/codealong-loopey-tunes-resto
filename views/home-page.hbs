@@ -6,7 +6,41 @@
     <li><a href="/pizzas/margarita">Margarita</a></li>
     <li><a href="/pizzas/veggie">Veggie</a></li>
     <li><a href="/pizzas/seafood">Seafood</a></li>
-    <li><a href="/pizzas/special?type=regina">Special with a query parameter `req.query` (vs a parameter passed to the route `req.params`)</a></li>
+    {{!-- <li><a href="/pizzas/special?type=regina">Special with a query parameter `req.query` (vs a parameter passed to the route `req.params`)</a></li> --}}
 </ul>
+
+<section>
+    <hr>
+    <h3>Filter pizzas by price</h3>
+    <form method="GET" action="/pizzas">
+        {{!-- linking the label and input with the respective attributes for and id allows the user to click the label to give focus to input field --}}
+        {{!--
+        <label for="inputMaxPrice">Max Price: </label>
+        <input type="number" name="maxPrice" id="inputMaxPrice">
+        --}}
+        {{!-- or --}}
+        <label>
+            Max Price: 
+            <input type="number" name="maxPrice">
+        </label>
+        <button type="submit">Submit</button>
+    </form>
+</section>
+
+<section>
+    <hr>
+    <h3>Login</h3>
+     <form method="POST" action="/login">
+        <label>
+            email: 
+            <input type="email" name="email" required>
+        </label>
+        <label>
+            password: 
+            <input type="password" name="pwd" required>
+        </label>
+        <button type="submit">Submit</button>
+    </form>
+</section>
 
 {{> ctaOrderNow}}

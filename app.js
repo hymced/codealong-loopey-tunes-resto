@@ -1,12 +1,13 @@
 
 // https://github.com/ironhack-loopey-tunes-may2023/loopey-restaurant
 
-/**********/
-/* config */
-/**********/
+/*******************************/
+/* config > require > packages */
+/*******************************/
 
 const express = require("express"),
       hbs = require("hbs");
+      mongoose = require("mongoose")
 
 // const handlebars = require("handlebars");
 // const exphbs = require('express-handlebars');
@@ -51,6 +52,27 @@ hbs.registerHelper(helpers); // must be an array with this syntax, not a single 
 
 // app.get(path, middlewareFunction);
 // app.get(path, (req, res, next) => {});
+
+/***************************/
+/* config > require > *.js */
+/***************************/
+
+const Pizza = require("./models/Pizza.model.js");
+
+/*****************/
+/* db connection */
+/*****************/
+
+mongoose
+    .connect('mongodb://127.0.0.1/loopeyTunesResto')
+    .then(x => {
+        console.log(`Connected! Database name: "${x.connections[0].name}"`);
+    })
+    .catch( e => console.log("error connecting to DB", e));
+
+/**********/
+/* routes */
+/**********/
 
 /*********/
 /* about */
@@ -103,78 +125,132 @@ app.get("/contact", (req, res, next) => {
 // https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/
 // https://pixabay.com/photos/pizza-italian-pasta-food-cheese-5179939/
 
-/**********************/
-/* pizzas > margarita */
-/**********************/
+/* */
 
-app.get("/pizzas/margarita", (req, res, next) => {
-    // res.send("page for Margarita")
+//
+// /**********************/
+// /* pizzas > margarita */
+// /**********************/
+// 
+// app.get("/pizzas/margarita", (req, res, next) => {
+//     // res.send("page for Margarita")
+// 
+//     // const pizzaDetails = {
+//     //     title: 'Pizza Margarita',
+//     //     price: 12,
+//     //     recommendedDrink: 'beer',
+//     //     imageFile: 'pizza-margarita.jpg',
+//     //     ingredients: [
+//     //         {
+//     //             ingredientName: "tomato sauce",
+//     //             calories: 200
+//     //         },
+//     //         'mozzarella', 'tomato sauce', 'basilicum'
+//     //     ],
+//     // };
+//     // res.render("product", {...pizzaDetails, page: {title: pizzaDetails.title}}) // name of the file without the .hbs extension
+//     // // if "layout.hbs" exists, handlebars will use it, and it wall assume that passed "product" is {{{body}}}
+//
+//     Pizza.findOne({title: "margarita"})
+//         .then( (pizzaFromDB) => {
+//             res.render("product", pizzaFromDB);
+//         })
+//         .catch( e => console.log("Error getting pizza from DB: ", e))
+//
+// });
+//
+// /*******************/
+// /* pizzas > veggie */
+// /*******************/
+//
+// app.get("/pizzas/veggie", (req, res, next) => {
+//     // res.send("page for Veggie")
+//
+//     // const pizzaDetails = {
+//     //     title: 'Veggie Pizza',
+//     //     price: 15,
+//     //     recommendedDrink: 'power smoothie',
+//     //     imageFile: 'pizza-veggie.jpg',
+//     //     ingredients: ['cherry tomatoes', 'basilicum', 'Olives'],
+//     // };
+//     // res.render("product", {...pizzaDetails, page: {title: pizzaDetails.title}})
+//
+//     Pizza.findOne({title: "veggie"})
+//         .then( (pizzaFromDB) => {
+//             res.render("product", pizzaFromDB);
+//         })
+//         .catch( e => console.log("Error getting pizza from DB: ", e))
+// });
+//
+// /********************/
+// /* pizzas > seafood */
+// /********************/
+//
+// app.get("/pizzas/seafood", (req, res, next) => {
+//     // res.send("page for Seafood")
+//
+//     // const pizzaDetails = {
+//     //     title: 'Seafood Pizza',
+//     //     // price: 20,
+//     //     // https://handlebarsjs.com/guide/builtin-helpers.html
+//     //     recommendedDrink: 'white wine',
+//     //     imageFile: 'pizza-seafood.jpg',
+//     //     ingredients: ['tomato sauce', 'garlic', 'prawn'],
+//     // };
+//     // res.render("product", {...pizzaDetails, page: {title: pizzaDetails.title}})
+//
+//     Pizza.findOne({title: "seafood"})
+//         .then( (pizzaFromDB) => {
+//             res.render("product", pizzaFromDB);
+//         })
+//         .catch( e => console.log("Error getting pizza from DB: ", e))
+// });
+//
+// /********************/
+// /* pizzas > special */
+// /********************/
+//
+// app.get("/pizzas/special", (req, res, next) => {
+//     console.log("-- request received for PIZZA SPECIAL");
+//     const pizzaType = req.query.type
+//     const arr = pizzaType.split(" ")
+//     for (let i = 0; i < arr.length; i++) {
+//         arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+//     }
+//     const pizzaTypeCapitalized = arr.join(" ");
+//     res.send("page for Special " + pizzaTypeCapitalized)
+// });
 
-    const pizzaDetails = {
-        title: 'Pizza Margarita',
-        price: 12,
-        recommendedDrink: 'beer',
-        imageFile: 'pizza-margarita.jpg',
-        ingredients: [
-            {
-                ingredientName: "tomato sauce",
-                calories: 200
-            },
-            'mozzarella', 'tomato sauce', 'basilicum'
-        ],
-    };
-    res.render("product", {...pizzaDetails, page: {title: pizzaDetails.title}}) // name of the file without the .hbs extension
-    // if "layout.hbs" exists, handlebars will use it, and it wall assume that passed "product" is {{{body}}}
+/* */
+
+/********************/
+/* pizzas > generic */
+/********************/
+
+app.get("/pizzas/:pizzaTitle", (req, res, next) => {
+
+    Pizza.findOne({title: req.params.pizzaTitle})
+        .then( (pizzaFromDB) => {
+            res.render("product", pizzaFromDB);
+        })
+        .catch( e => console.log("Error getting pizza from DB: ", e))
 });
 
-/*******************/
-/* pizzas > veggie */
-/*******************/
+/**********/
+/* pizzas */
+/**********/
 
-app.get("/pizzas/veggie", (req, res, next) => {
-    // res.send("page for Veggie")
-
-    const pizzaDetails = {
-        title: 'Veggie Pizza',
-        price: 15,
-        recommendedDrink: 'power smoothie',
-        imageFile: 'pizza-veggie.jpg',
-        ingredients: ['cherry tomatoes', 'basilicum', 'Olives'],
-    };
-    res.render("product", {...pizzaDetails, page: {title: pizzaDetails.title}})
-});
-
-/********************/
-/* pizzas > seafood */
-/********************/
-
-app.get("/pizzas/seafood", (req, res, next) => {
-    // res.send("page for Seafood")
-
-    const pizzaDetails = {
-        title: 'Seafood Pizza',
-        // price: 20,
-        // https://handlebarsjs.com/guide/builtin-helpers.html
-        recommendedDrink: 'white wine',
-        imageFile: 'pizza-seafood.jpg',
-        ingredients: ['tomato sauce', 'garlic', 'prawn'],
-    };
-    res.render("product", {...pizzaDetails, page: {title: pizzaDetails.title}})
-});
-
-/********************/
-/* pizzas > special */
-/********************/
-
-app.get("/pizzas/special", (req, res, next) => {
-    console.log("-- request received for PIZZA SPECIAL");
-    const pizzaType = req.query.type
-    const arr = pizzaType.split(" ")
-    for (let i = 0; i < arr.length; i++) {
-        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-    }
-    const pizzaTypeCapitalized = arr.join(" ");
-    res.send("page for Special " + pizzaTypeCapitalized)
+app.get("/pizzas", (req, res, next) => {
+    // const maxPrice = req.query.maxPrice
+    const {maxPrice} = req.query
+    // Pizza.find(maxPrice ? {price: {$lte: req.query.maxPrice}} : {})
+    filter = {}
+    if (maxPrice) filter = {price: {$lte: Number(req.query.maxPrice)}}
+    Pizza.find(filter)
+        .then( (pizzasFromDB) => {
+            res.render("product-list", {pizzasArr: pizzasFromDB});
+        })
+        .catch( e => console.log("Error getting pizza from DB: ", e))
 });
 
 /******************/

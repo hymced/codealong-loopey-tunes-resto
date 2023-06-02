@@ -5,6 +5,8 @@ const Schema  = mongoose.Schema;
 
 const Pizza = require("./models/Pizza.model.js");
 
+// no need to use exports for a JSON file, require is enough
+
 // default MongoDB port = 27017
 
 // mongoose.connect("mongodb://localhost:27017/loopeyTunesResto") 
@@ -48,5 +50,14 @@ mongoose.connect("mongodb://127.0.0.1:27017/loopeyTunesResto")
     .then( (pizzasArr) => {
         console.log("I currently have this amount of pizzas...", pizzasArr.length);
         console.log(pizzasArr);
+
+        // Model.findByIdAndUpdate(id, update [, options])
+        // Pizza.findByIdAndUpdate("6478ab28253a612d34d1b97f", {price: 20}, { returnDocument: 'after' })
+        // Pizza.findByIdAndUpdate("6478ab28253a612d34d1b97f", {price: 20}, { new: true })
+        return Pizza.updateMany({price: {$gt: 12} }, {dough: "with garlic"});
     })
+    .then( (result) => {
+        console.log(result)
+    })
+    .finally()
     .catch((err) => console.error("Error connecting to DB", err));
